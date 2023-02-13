@@ -1,11 +1,12 @@
 <template>
   <div>
-    <default />
+    <btnTest />
   </div>
 </template>
 <script>
-import Default from "./layouts/default";
-export default {
-  components: {Default}
-}
+  import btnTest from "./components/buttons/btnTest";
+
+  export default {
+    components: {btnTest}
+  }
 </script>
