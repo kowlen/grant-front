@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <btnTest />
-  </div>
+    <defaultLayout />
 </template>
 <script>
-  import btnTest from "./components/buttons/btnTest";
+  import defaultLayout from "/layouts/default";
 
   export default {
-    components: {btnTest}
+    components: {defaultLayout}
   }
 </script>

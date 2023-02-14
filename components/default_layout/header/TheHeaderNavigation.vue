@@ -1,20 +1,20 @@
 <template>
-    <nav class="header-navigation__container">      
-        <ul>        
+    <nav class="header-navigation__container">
+        <ul>
             <li><NuxtLink to="/" class="header-navigation__link">
-                <img src="./../../assets/icons/Union.svg" alt="" loading="lazy">
+                <img src="../../../assets/icons/Union.svg" alt="" loading="lazy">
                 <p>Главная</p>
-            </NuxtLink></li>        
+            </NuxtLink></li>
             <li><NuxtLink to="#" class="header-navigation__link">
-                <img src="./../../assets/icons/help.svg" alt="" loading="lazy">
+                <img src="../../../assets/icons/help.svg" alt="" loading="lazy">
                 <p>Помощь</p>
-            </NuxtLink></li>        
+            </NuxtLink></li>
             <li><NuxtLink to="#" class="header-navigation__link">
-                <img src="./../../assets/icons/base.svg" alt="" loading="lazy">
+                <img src="../../../assets/icons/base.svg" alt="" loading="lazy">
                 <p>База знаний</p>
-            </NuxtLink></li>      
-        </ul>   
-    </nav> 
+            </NuxtLink></li>
+        </ul>
+    </nav>
 </template>
 
 <script>
