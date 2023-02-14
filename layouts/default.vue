@@ -2,7 +2,8 @@
   <div class="layout-wrap">
     <TheHeader/>
     <TheMain/>
-    <question/>
+    <question v-on:click="chatIsVisible = !chatIsVisible" :isActive="chatIsVisible"/>
+    <chat :isVisible="chatIsVisible" />
   </div>
 </template>
 
@@ -11,10 +12,17 @@
   import TheHeader from "../components/default_layout/header/TheHeader";
   import TheMain from "../components/default_layout/main/TheMain";
   import Question from "../components/default_layout/question";
+  import Chat from "../components/default_layout/main/chat";
 
   export default {
     name: "defaultLayout",
-    components: {Question, TheMain, TheHeader}
+    components: {Chat, Question, TheMain, TheHeader},
+    data(){
+      return {
+        chatIsVisible: false,
+        questionIsActive: false,
+      }
+    }
   }
 </script>
 
