@@ -13,8 +13,8 @@
     </div>
 
     <div class="profile__action">
-      <my-btn>профиль</my-btn>
-      <my-btn>обновить</my-btn>
+      <my-btn class="my-btn-user">ПРОФИЛЬ</my-btn>
+      <my-btn class="my-btn-user">ОБНОВИТЬ</my-btn>
     </div>
   </div>
 </template>
