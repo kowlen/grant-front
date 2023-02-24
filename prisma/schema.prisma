@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model UserRole {
+    id        String  @id @default(cuid())
+    name          String? @unique
+    userRoles User[] @relation("UserRoles")
+}
+
+model Rate {
+    id        String  @id @default(cuid())
+    name          String?
+    price         String? @unique
+    rateOrders    Order[] @relation("RateOrders")
+    rateOrdersHistory    OrderHistory[] @relation("RateOrdersHistory")
+}
+
+model Post {
+    id            String  @id @default(cuid())
+    name          String? @unique
+    employeePosts Employee[] @relation("EmployeePosts")
+}
+
+model OrderStatus {
+    id            String  @id @default(cuid())
+    name          String? @unique
+    orderStatuses Order[] @relation("OrderStatuses")
+    orderHistoryStatuses OrderHistory[] @relation("OrderHistoryStatuses")
+}
+
+model Employee {
+    id            String  @id @default(cuid())
+    surname         String?
+    name            String?
+    lastname        String?
+    postId          String
+    dateHired       DateTime?
+    dateFired       DateTime?
+    employeeUser    User[] @relation("EmployeeUser")
+    post            Post @relation("EmployeePosts", fields: [postId], references: [id])
+}
+
+model Customer {
+    id              String  @id @default(cuid())
+    surname         String?
+    name            String?
+    lastname        String?
+    dateCreate      DateTime @default(now())
+    customerAddreses CustomerAddress[] @relation("CustomerAddreses")
+    customerNumbers CustomerNumbers[] @relation("CustomerNumbers")
+    customerOrders  Order[] @relation("CustomerOrders")
+    customerOrdersHistory  OrderHistory[] @relation("CustomerOrdersHistory")
+}
+
+model CustomerAddress {
+    id              String  @id @default(cuid())
+    customerId      String
+    city            String?
+    street          String?
+    houseNumber     String?
+    entranceNumber  String?
+    current         Boolean?
+    dateCreate      DateTime @default(now())
+    customer        Customer @relation("CustomerAddreses",fields: [customerId], references: [id])
+}
+
+model CustomerNumbers {
+    id              String  @id @default(cuid())
+    customerId      String
+    number          String?
+    current         Boolean?
+    dateCreate      DateTime @default(now())
+    customer        Customer @relation("CustomerNumbers",fields: [customerId], references: [id])
+}
+
+model User {
+    id                      String  @id @default(cuid())
+    login                   String? @unique
+    email                   String? @unique
+    password                String?
+    employeeId              String
+    roleId                  String
+    dateCreate              DateTime @default(now())
+    dateDelete              DateTime?
+    dateBan                 DateTime?
+    isDelete                Boolean?
+    isBan                   Boolean?
+    employee                Employee @relation("EmployeeUser", fields: [employeeId], references: [id])
+    role                    UserRole @relation("UserRoles", fields: [roleId], references: [id])
+    orderAuthors            Order[] @relation("AuthorOrder")
+    orderExecutors          Order[] @relation("ExecutorOrder")
+    orderAuthorsHistory     OrderHistory[] @relation("ExecutorOrderHistory")
+    orderExecutorsHistory   OrderHistory[] @relation("AuthorOrderHistory")
+}
+
+model Order {
+    id              String  @id @default(cuid())
+    customerId      String
+    authorId        String
+    executorId      String
+    rateId          String
+    statusId        String
+    needRouter      Boolean @default(false)
+    reason          String?
+    number          String?
+    address         String?
+    dateExecution   DateTime?
+    dateCreate      DateTime @default(now())
+    author          User @relation(name:"AuthorOrder", fields: [authorId], references: [id])
+    executor        User @relation(name:"ExecutorOrder", fields: [executorId], references: [id])
+    customer        Customer @relation("CustomerOrders",fields: [customerId], references: [id])
+    rate            Rate @relation("RateOrders", fields: [rateId], references: [id])
+    status          OrderStatus @relation("OrderStatuses", fields: [statusId], references: [id])
+    ordersHistory   OrderHistory[] @relation("OrdersHistory")
+}
+
+model OrderHistory {
+    id              String  @id @default(cuid())
+    orderId         String
+    customerId      String
+    authorId        String
+    executorId      String
+    rateId          String
+    statusId        String
+    needRouter      Boolean?
+    reason          String?
+    number          String?
+    address         String?
+    dateExecution   DateTime?
+    dateChange      DateTime @default(now())
+    order           Order @relation("OrdersHistory", fields: [orderId], references: [id])
+    customer        Customer @relation("CustomerOrdersHistory", fields: [customerId], references: [id])
+    rate            Rate @relation("RateOrdersHistory", fields: [rateId], references: [id])
+    status          OrderStatus @relation("OrderHistoryStatuses",fields: [statusId], references: [id])
+    executor        User @relation(name:"ExecutorOrderHistory",fields: [executorId], references: [id])
+    author          User @relation(name:"AuthorOrderHistory",fields: [authorId], references: [id])
+}
+
+

@@ -1,3 +1,5 @@
+import OrderModel from "~/server/models/Order.model"
+
 export default defineEventHandler(async (event)=> {
-    return "Hello from books"
+    return await OrderModel.find({})
 })
